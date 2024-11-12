@@ -10,7 +10,11 @@ class TodoList {
   }
 
   add(item) {
-    if (!this.isUserValid()) {
+    console.log("in add if user is valid", this.user.isValid());
+
+    if (!this.user.isValid()) {
+      console.log("ddd");
+
       throw new Error("L'utilisateur n'est pas valide.");
     }
 
