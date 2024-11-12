@@ -6,15 +6,11 @@ class TodoList {
   }
 
   isUserValid() {
-    return this.user && this.user.isValid;
+    return this.user.isValid();
   }
 
   add(item) {
-    console.log("in add if user is valid", this.user.isValid());
-
-    if (!this.user.isValid()) {
-      console.log("ddd");
-
+    if (this.isUserValid() !== true) {      
       throw new Error("L'utilisateur n'est pas valide.");
     }
 
@@ -55,4 +51,4 @@ class TodoList {
   }
 }
 
-module.exports =  TodoList ;
+module.exports = TodoList;

@@ -22,7 +22,7 @@ class User {
     return regex.test(this.password);
   }
 
-  isValid() {
+  isValid() {    
     const emailRegex = new RegExp("^[\\w.-]+@[\\w-]+\\.[a-zA-Z]{2,}$");
 
     switch (true) {
@@ -47,7 +47,7 @@ class User {
       case this.getAge() < 13:
         return `Invalid age not above at minimum 13: ${this.getAge()}`;
 
-      case !this.validPassword():
+      case this.validPassword() === false:
         return `Invalid password should be beetwen 8 and 40 characters in 
         length and have at least one uppercase letter, one lowercase letter and one number`;
       default:

@@ -1,5 +1,5 @@
 const TodoList = require("../classes/todolist");
-const User  = require("../classes/user");
+const User = require("../classes/user");
 const EmailSenderService = require("../classes/emailSenderService");
 
 const newUser = new User(
@@ -16,7 +16,35 @@ test("test new user", () => {
   expect(newUser.isValid()).toBe(true);
 });
 
-describe("TodoList avec envoi d’email au 8ème item", () => {
+describe("TodoList invalid user", () => {
+  const invalidUser = new User(
+    "Louafi",
+    "Razine",
+    new Date("09/07/2010"),
+    "louafi.razine@gmail.com",
+    "Jkk12" // invalid password
+  );
+
+  let todoList;
+  let emailSenderService;
+
+  beforeEach(() => {
+    emailSenderService = new EmailSenderService();
+    todoList = new TodoList(invalidUser, emailSenderService);
+  });
+
+  test("todolist add with invalid user", () => {
+    expect(() => {
+      todoList.add({
+        name: `Item1`,
+        content: "Contenu",
+        createdAt: new Date(Date.now()),
+      });
+    }).toThrow("L'utilisateur n'est pas valide.");
+  });
+});
+
+describe("TodoList with email sending on the 8th", () => {
   let emailSenderService;
   let todoList;
 
@@ -38,7 +66,6 @@ describe("TodoList avec envoi d’email au 8ème item", () => {
       createdAt: new Date(Date.now() + i * 31 * 60 * 1000),
     }));
 
-    
     items.slice(0, 7).forEach((item) => todoList.add(item));
 
     expect(todoList.emailSenderService.sendEmail).not.toHaveBeenCalled();
@@ -55,10 +82,10 @@ describe("TodoList avec envoi d’email au 8ème item", () => {
     });
 
     todoList.save();
-    
+
     expect(todoList.emailSenderService.sendEmail).toHaveBeenCalledWith(
       newUser,
-      "Votre ToDoList est presque remplie !" 
+      "Votre ToDoList est presque remplie !"
     );
   });
 
