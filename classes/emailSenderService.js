@@ -1,6 +1,6 @@
 class EmailSenderService {
   sendEmail(user, message) {
-    throw new Error("error");
+    throw new Error("error email");
   }
 }
 
